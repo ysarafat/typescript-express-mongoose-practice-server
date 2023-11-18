@@ -32,5 +32,5 @@ export type Student = {
   permanentAddress: string;
   guardian: Guardian;
   localGuardian: LocalGuardian;
-  isActive: 'active' | 'inactive';
+  isActive: 'active' | 'blocked';
 };

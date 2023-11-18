@@ -1,10 +1,21 @@
 import { Request, Response } from 'express';
-import { StudentServices } from './student.service';
 
+import { StudentServices } from './student.service';
+import { StudentSchemaValidation } from './student.validation';
 // create student
 const createStudent = async (req: Request, res: Response) => {
   try {
+    // validation
+
     const { student: studentData } = req.body;
+    const { value, error } = StudentSchemaValidation.validate(studentData);
+    if (error) {
+      return res.status(500).json({
+        success: false,
+        message: 'Something want wrong!',
+        error,
+      });
+    }
     //   will call service func and send data
     const result = await StudentServices.createStudent(studentData);
 
@@ -16,6 +27,11 @@ const createStudent = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Something want wrong!',
+      error,
+    });
   }
 };
 // get all students
